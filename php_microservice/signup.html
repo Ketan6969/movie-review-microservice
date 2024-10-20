@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Sign Up</title>
+</head>
+<body>
+    <form id="signupform" class="signupform">
+        <input type="text" name="email" id="email" placeholder="Email" required>
+        <input type="password" name="password" id="password" placeholder="Password" required>
+        <input type="submit" value="Sign Up">
+    </form>
+
+    <script>
+        document.getElementById('signupform').addEventListener('submit', function(event) {
+            event.preventDefault(); // Prevent the form from refreshing the page
+
+            // Get the input values
+            const email = document.getElementById('email').value;
+            const password = document.getElementById('password').value;
+
+            // Create the request data
+            const data = {
+                username: email,
+                password: password
+            };
+
+            // Send the POST request to the API
+            fetch('http://127.0.0.1:5000/add_entry', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify(data)
+            })
+            .then(response => response.json())
+            .then(result => {
+                console.log(result);
+                alert('Sign up successful! Entry ID: ' + result.id);
+            })
+            .catch(error => {
+                console.error('Error:', error);
+                alert('Failed to sign up.');
+            });
+        });
+    </script>
+</body>
+</html>
